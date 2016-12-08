@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Prevas Asset Menu</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">
+					<img alt="Prevas AB" src="img/Prevas logo-cent.jpg">
+				</a>
+				<button type="button" class="btn btn-link btn-lg pull-right">
+						<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+	</nav>
+    <div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading text-center">
+<div id="promoNode"></div>
+
+	<p>Using Opera Next or Chrome Canary, use this page to take your picture!</p>
+
+	<!--
+		Ideally these elements aren't created until it's confirmed that the
+		client supports video/camera, but for the sake of illustrating the
+		elements involved, they are created with markup (not JavaScript)
+	-->
+	<video id="video" width="640" height="480" autoplay></video>
+	<button id="snap" class="sexyButton">Snap Photo</button>
+	<canvas id="canvas" width="640" height="480"></canvas>
+
+	<script>
+
+		// Put event listeners into place
+		window.addEventListener("DOMContentLoaded", function() {
+			// Grab elements, create settings, etc.
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+            var video = document.getElementById('video');
+            var mediaConfig =  { video: true };
+            var errBack = function(e) {
+            	console.log('An error has occurred!', e)
+            };
+
+			// Put video listeners into place
+            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia(mediaConfig).then(function(stream) {
+                    video.src = window.URL.createObjectURL(stream);
+                    video.play();
+                });
+            }
+
+            /* Legacy code below! */
+            else if(navigator.getUserMedia) { // Standard
+				navigator.getUserMedia(mediaConfig, function(stream) {
+					video.src = stream;
+					video.play();
+				}, errBack);
+			} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+				navigator.webkitGetUserMedia(mediaConfig, function(stream){
+					video.src = window.webkitURL.createObjectURL(stream);
+					video.play();
+				}, errBack);
+			} else if(navigator.mozGetUserMedia) { // Mozilla-prefixed
+				navigator.mozGetUserMedia(mediaConfig, function(stream){
+					video.src = window.URL.createObjectURL(stream);
+					video.play();
+				}, errBack);
+			}
+
+			// Trigger photo take
+			document.getElementById('snap').addEventListener('click', function() {
+				context.drawImage(video, 0, 0, 640, 480);
+			});
+		}, false);
+
+	</script>
+
+</div>
+					</div>
+					<div class="panel-body">
+						<div class="boxWrapper auto">
+								<div id="hiddenImg"></div>
+								<div id="qrContent" class="alert alert-info" role="alert">
+									<p>Söker Asset...</p>
+								</div>
+							</div>						
+					</div>
+					<ul class="list-group">
+    					<li class="list-group-item">
+							<form>
+								<div class="form-group">
+									<label for="videoSource">Välj kamera</label>
+									<select id="videoSource"><option selected>Standard kamera</option></select>
+								</div>
+								
+							</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+	
+	<script src="js/say-cheese.js"></script>
+
+	<script src="js/qr/grid.js"></script>
+	<script src="js/qr/version.js"></script>
+	<script src="js/qr/detector.js"></script>
+	<script src="js/qr/formatinf.js"></script>
+	<script src="js/qr/errorlevel.js"></script>
+	<script src="js/qr/bitmat.js"></script>
+	<script src="js/qr/datablock.js"></script>
+	<script src="js/qr/bmparser.js"></script>
+	<script src="js/qr/datamask.js"></script>
+	<script src="js/qr/rsdecoder.js"></script>
+	<script src="js/qr/gf256poly.js"></script>
+	<script src="js/qr/gf256.js"></script>
+	<script src="js/qr/decoder.js"></script>
+	<script src="js/qr/qrcode.js"></script>
+	<script src="js/qr/findpat.js"></script>
+	<script src="js/qr/alignpat.js"></script>
+	<script src="js/qr/databr.js"></script>
+
+	<script src="js/effects_saycheese.js"></script>
+  </body>
+</html>
